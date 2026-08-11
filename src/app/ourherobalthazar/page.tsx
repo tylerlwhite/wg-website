@@ -814,8 +814,8 @@ export default function OurHeroBalthazarPage() {
       {/* GA4 events for the influencer campaign (UTM capture + link clicks) */}
       <OhbTracking />
 
-      {/* Back Arrow */}
-      <div className="fixed top-6 left-6 z-50">
+      {/* Back to wgpictures.com home */}
+      <nav aria-label="Back to home" className="fixed top-6 left-6 z-50">
         <a
           href="/"
           className="w-10 h-10 flex items-center justify-center border-2 border-white hover:bg-white hover:text-black transition-all"
@@ -824,10 +824,17 @@ export default function OurHeroBalthazarPage() {
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
         </a>
-      </div>
+      </nav>
 
-      {/* Where to Watch — primary CTA as of the 8/11 digital release */}
-      <div className="relative pt-10 pb-12" style={{ backgroundColor: BRAND.black }}>
+      {/* ============================================================
+           WATCH AT HOME — primary CTA. Digital release 8/11/2026.
+           ============================================================ */}
+      <section
+        id="watch-at-home"
+        aria-label="Watch at home"
+        className="relative pt-10 pb-12"
+        style={{ backgroundColor: BRAND.black }}
+      >
         <div className="text-center pb-6">
           <h2
             className="text-white text-2xl md:text-3xl uppercase tracking-[0.15em]"
@@ -868,12 +875,17 @@ export default function OurHeroBalthazarPage() {
         <p className="pt-5 text-center font-mono text-[10px] uppercase tracking-[0.1em] text-white/50">
           Availability varies by region.
         </p>
-      </div>
+      </section>
 
       {/* Trailer — sits below the Watch at Home links, mirroring the OHB site.
           Facade pattern: the poster is swapped for the embed on click, so the
           YouTube player is only loaded if someone actually wants it. */}
-      <div className="relative pb-12" style={{ backgroundColor: BRAND.black }}>
+      <section
+        id="trailer"
+        aria-label="Official trailer"
+        className="relative pb-12"
+        style={{ backgroundColor: BRAND.black }}
+      >
         <div className="mx-[4vw] max-w-[1100px] xl:mx-auto">
           <div className="relative w-full aspect-video overflow-hidden bg-black">
             {trailerPlaying ? (
@@ -913,229 +925,242 @@ export default function OurHeroBalthazarPage() {
             )}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Date Picker */}
-      <div
-        className="relative pt-10 mx-[4vw] border-t border-white/15"
-        style={{ backgroundColor: BRAND.black }}
-      >
-        {/* Theatrical showtimes — secondary to digital */}
-        <div className="text-center pb-4">
-          <h2
-            className="text-white/60 text-2xl md:text-3xl uppercase tracking-[0.15em]"
-            style={{
-              fontFamily: "'Neue Haas Grotesk Display', 'Inter', sans-serif",
-              fontWeight: 900,
-            }}
-          >
-            Also Playing in Theaters
-          </h2>
-        </div>
-        {availableDates.length === 0 ? (
-          <div className="py-12 text-center">
-            <p className="text-lg font-bold uppercase tracking-wide opacity-60">
-              No upcoming showtimes available
-            </p>
-          </div>
-        ) : (
-          <>
-            <div
-              ref={scrollRef}
-              className="flex overflow-x-auto"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            >
-              {availableDates.map((date) => {
-                const cityDisabled = selectedCity !== null && !datesForSelectedCity.has(date.dateStr);
-                const specialDisabled = showSpecialOnly && !datesWithSpecialEvents.has(date.dateStr);
-                const isDisabled = cityDisabled || specialDisabled;
-                return (
-                  <DateButton
-                    key={date.dateStr}
-                    date={date}
-                    isSelected={selectedDateStr === date.dateStr}
-                    isDisabled={isDisabled}
-                    onSelect={handleDateClick}
-                  />
-                );
-              })}
-            </div>
-            {/* Scroll arrows */}
-            <button
-              onClick={() => scrollRef.current?.scrollBy({ left: -240, behavior: "smooth" })}
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center transition-colors border-2"
-              style={{
-                backgroundColor: BRAND.black,
-                borderColor: BRAND.white,
-                color: BRAND.white,
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                <path d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <button
-              onClick={() => scrollRef.current?.scrollBy({ left: 240, behavior: "smooth" })}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center transition-colors border-2"
-              style={{
-                backgroundColor: BRAND.black,
-                borderColor: BRAND.white,
-                color: BRAND.white,
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                <path d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </>
-        )}
-      </div>
+      {/* ============================================================
+           FILM INFO — poster, synopsis, cast and credits.
+           ============================================================ */}
+      <section id="film-info" aria-label="About the film">
+        <HeroSection />
+      </section>
 
-      {/* Location Bar */}
-      <div className="px-6 md:px-12 lg:px-16 py-4 flex items-center justify-between relative" style={{ backgroundColor: BRAND.lightGray }} ref={locationRef}>
-        <button
-          onClick={() => setLocationDropdownOpen(!locationDropdownOpen)}
-          className="flex items-center gap-2 text-white hover:opacity-70 transition-opacity"
+      {/* ============================================================
+           SPECIAL SCREENINGS — theatrical listings.
+           Sits below the film info so the page opens on the TVOD links
+           and the trailer; screenings are no longer the first thing a
+           visitor sees.
+           ============================================================ */}
+      <section id="special-screenings" aria-label="Special screenings">
+        {/* Date Picker */}
+        <div
+          className="relative pt-10 mx-[4vw] border-t border-white/15"
+          style={{ backgroundColor: BRAND.black }}
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-            <circle cx="12" cy="10" r="3" />
-          </svg>
-          <span className="text-sm font-bold uppercase tracking-wide">
-            {selectedCity ? (CITY_LABELS[selectedCity] || selectedCity) : "All Locations"}
-          </span>
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="3"
-            className={`transition-transform ${locationDropdownOpen ? "rotate-180" : ""}`}
-          >
-            <path d="M6 9l6 6 6-6" />
-          </svg>
-        </button>
-
-        {/* Dropdown */}
-        {locationDropdownOpen && (
-          <div className="absolute top-full left-0 right-0 bg-black border-2 border-t-0 border-white/20 z-50 shadow-lg">
-            <button
-              onClick={() => {
-                setSelectedCity(null);
-                setLocationDropdownOpen(false);
+          {/* Theatrical showtimes — secondary to digital */}
+          <div className="text-center pb-4">
+            <h2
+              className="text-white/60 text-2xl md:text-3xl uppercase tracking-[0.15em]"
+              style={{
+                fontFamily: "'Neue Haas Grotesk Display', 'Inter', sans-serif",
+                fontWeight: 900,
               }}
-              className={`w-full px-6 py-3 text-left text-sm font-bold uppercase tracking-wide hover:bg-white hover:text-black transition-colors flex items-center justify-between ${selectedCity === null ? "bg-white text-black" : "text-white"
-                }`}
             >
-              All Locations
-              {selectedCity === null && (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                  <path d="M20 6L9 17l-5-5" />
-                </svg>
-              )}
-            </button>
-            {availableCities.map(city => (
+              Also Playing in Theaters
+            </h2>
+          </div>
+          {availableDates.length === 0 ? (
+            <div className="py-12 text-center">
+              <p className="text-lg font-bold uppercase tracking-wide opacity-60">
+                No upcoming showtimes available
+              </p>
+            </div>
+          ) : (
+            <>
+              <div
+                ref={scrollRef}
+                className="flex overflow-x-auto"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+              >
+                {availableDates.map((date) => {
+                  const cityDisabled = selectedCity !== null && !datesForSelectedCity.has(date.dateStr);
+                  const specialDisabled = showSpecialOnly && !datesWithSpecialEvents.has(date.dateStr);
+                  const isDisabled = cityDisabled || specialDisabled;
+                  return (
+                    <DateButton
+                      key={date.dateStr}
+                      date={date}
+                      isSelected={selectedDateStr === date.dateStr}
+                      isDisabled={isDisabled}
+                      onSelect={handleDateClick}
+                    />
+                  );
+                })}
+              </div>
+              {/* Scroll arrows */}
               <button
-                key={city}
-                onClick={() => {
-                  setSelectedCity(city);
-                  setLocationDropdownOpen(false);
-                  // If current selected date is not available in the new city, select the first available date
-                  const cityDates = new Set<string>();
-                  showtimesData.forEach(s => {
-                    if (getTheaterCity(s.theater) === city) {
-                      cityDates.add(s.date);
-                    }
-                  });
-                  if (!cityDates.has(selectedDateStr)) {
-                    const firstAvailableDate = availableDates.find(d => cityDates.has(d.dateStr));
-                    if (firstAvailableDate) {
-                      setSelectedDateStr(firstAvailableDate.dateStr);
-                    }
-                  }
+                onClick={() => scrollRef.current?.scrollBy({ left: -240, behavior: "smooth" })}
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center transition-colors border-2"
+                style={{
+                  backgroundColor: BRAND.black,
+                  borderColor: BRAND.white,
+                  color: BRAND.white,
                 }}
-                className={`w-full px-6 py-3 text-left text-sm font-bold uppercase tracking-wide hover:bg-white hover:text-black transition-colors flex items-center justify-between ${selectedCity === city ? "bg-white text-black" : "text-white"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                  <path d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                onClick={() => scrollRef.current?.scrollBy({ left: 240, behavior: "smooth" })}
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center transition-colors border-2"
+                style={{
+                  backgroundColor: BRAND.black,
+                  borderColor: BRAND.white,
+                  color: BRAND.white,
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                  <path d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* Location Bar */}
+        <div className="px-6 md:px-12 lg:px-16 py-4 flex items-center justify-between relative" style={{ backgroundColor: BRAND.lightGray }} ref={locationRef}>
+          <button
+            onClick={() => setLocationDropdownOpen(!locationDropdownOpen)}
+            className="flex items-center gap-2 text-white hover:opacity-70 transition-opacity"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            <span className="text-sm font-bold uppercase tracking-wide">
+              {selectedCity ? (CITY_LABELS[selectedCity] || selectedCity) : "All Locations"}
+            </span>
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              className={`transition-transform ${locationDropdownOpen ? "rotate-180" : ""}`}
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
+
+          {/* Dropdown */}
+          {locationDropdownOpen && (
+            <div className="absolute top-full left-0 right-0 bg-black border-2 border-t-0 border-white/20 z-50 shadow-lg">
+              <button
+                onClick={() => {
+                  setSelectedCity(null);
+                  setLocationDropdownOpen(false);
+                }}
+                className={`w-full px-6 py-3 text-left text-sm font-bold uppercase tracking-wide hover:bg-white hover:text-black transition-colors flex items-center justify-between ${selectedCity === null ? "bg-white text-black" : "text-white"
                   }`}
               >
-                {CITY_LABELS[city] || city}
-                {selectedCity === city && (
+                All Locations
+                {selectedCity === null && (
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                     <path d="M20 6L9 17l-5-5" />
                   </svg>
                 )}
               </button>
-            ))}
-          </div>
-        )}
+              {availableCities.map(city => (
+                <button
+                  key={city}
+                  onClick={() => {
+                    setSelectedCity(city);
+                    setLocationDropdownOpen(false);
+                    // If current selected date is not available in the new city, select the first available date
+                    const cityDates = new Set<string>();
+                    showtimesData.forEach(s => {
+                      if (getTheaterCity(s.theater) === city) {
+                        cityDates.add(s.date);
+                      }
+                    });
+                    if (!cityDates.has(selectedDateStr)) {
+                      const firstAvailableDate = availableDates.find(d => cityDates.has(d.dateStr));
+                      if (firstAvailableDate) {
+                        setSelectedDateStr(firstAvailableDate.dateStr);
+                      }
+                    }
+                  }}
+                  className={`w-full px-6 py-3 text-left text-sm font-bold uppercase tracking-wide hover:bg-white hover:text-black transition-colors flex items-center justify-between ${selectedCity === city ? "bg-white text-black" : "text-white"
+                    }`}
+                >
+                  {CITY_LABELS[city] || city}
+                  {selectedCity === city && (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                      <path d="M20 6L9 17l-5-5" />
+                    </svg>
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
 
-        <div className="flex items-center gap-4">
-          {/* Special Events Toggle */}
-          <button
-            onClick={() => {
-              const newValue = !showSpecialOnly;
-              setShowSpecialOnly(newValue);
-              if (newValue && !datesWithSpecialEvents.has(selectedDateStr)) {
-                const firstAvailableDate = availableDates.find(d => datesWithSpecialEvents.has(d.dateStr));
-                if (firstAvailableDate) {
-                  setSelectedDateStr(firstAvailableDate.dateStr);
+          <div className="flex items-center gap-4">
+            {/* Special Events Toggle */}
+            <button
+              onClick={() => {
+                const newValue = !showSpecialOnly;
+                setShowSpecialOnly(newValue);
+                if (newValue && !datesWithSpecialEvents.has(selectedDateStr)) {
+                  const firstAvailableDate = availableDates.find(d => datesWithSpecialEvents.has(d.dateStr));
+                  if (firstAvailableDate) {
+                    setSelectedDateStr(firstAvailableDate.dateStr);
+                  }
                 }
-              }
-            }}
-            className={`flex items-center gap-2 px-3 py-1.5 border-2 text-[10px] font-bold uppercase tracking-wide transition-all ${showSpecialOnly
-                ? "bg-white text-black border-white"
-                : "bg-transparent text-white border-white/40 hover:border-white"
-              }`}
-          >
-            <span>Q&A / Special</span>
-            {showSpecialOnly && (
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                <path d="M20 6L9 17l-5-5" />
-              </svg>
-            )}
-          </button>
-          <div className="text-xs tracking-[0.15em] font-bold uppercase text-white/60">
-            {currentTheaters.length} {currentTheaters.length === 1 ? "Theater" : "Theaters"}
+              }}
+              className={`flex items-center gap-2 px-3 py-1.5 border-2 text-[10px] font-bold uppercase tracking-wide transition-all ${showSpecialOnly
+                  ? "bg-white text-black border-white"
+                  : "bg-transparent text-white border-white/40 hover:border-white"
+                }`}
+            >
+              <span>Q&A / Special</span>
+              {showSpecialOnly && (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                  <path d="M20 6L9 17l-5-5" />
+                </svg>
+              )}
+            </button>
+            <div className="text-xs tracking-[0.15em] font-bold uppercase text-white/60">
+              {currentTheaters.length} {currentTheaters.length === 1 ? "Theater" : "Theaters"}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Theater Showtimes Grid */}
-      <div className="px-6 md:px-12 lg:px-16 py-8" style={{ backgroundColor: BRAND.black }}>
-        <div className="max-w-6xl mx-auto">
-          {availableDates.map(date => {
-            const byTheater = showtimesByDateAndTheater[date.dateStr] || {};
-            const theaterNames = Object.keys(byTheater);
-            const isSelected = selectedDateStr === date.dateStr;
+        {/* Theater Showtimes Grid */}
+        <div className="px-6 md:px-12 lg:px-16 py-8" style={{ backgroundColor: BRAND.black }}>
+          <div className="max-w-6xl mx-auto">
+            {availableDates.map(date => {
+              const byTheater = showtimesByDateAndTheater[date.dateStr] || {};
+              const theaterNames = Object.keys(byTheater);
+              const isSelected = selectedDateStr === date.dateStr;
 
-            return (
-              <div
-                key={date.dateStr}
-                style={{ display: isSelected ? "block" : "none" }}
-              >
-                {theaterNames.length === 0 ? (
-                  <div className="py-12 text-center">
-                    <p className="text-lg font-bold uppercase tracking-wide opacity-60">
-                      {showSpecialOnly ? "No special events on this date" : "No showtimes available for this date"}
-                    </p>
-                  </div>
-                ) : (
-                  theaterNames.map((theaterName) => (
-                    <TheaterRow
-                      key={theaterName}
-                      theaterName={theaterName}
-                      showtimes={byTheater[theaterName]}
-                    />
-                  ))
-                )}
-              </div>
-            );
-          })}
+              return (
+                <div
+                  key={date.dateStr}
+                  style={{ display: isSelected ? "block" : "none" }}
+                >
+                  {theaterNames.length === 0 ? (
+                    <div className="py-12 text-center">
+                      <p className="text-lg font-bold uppercase tracking-wide opacity-60">
+                        {showSpecialOnly ? "No special events on this date" : "No showtimes available for this date"}
+                      </p>
+                    </div>
+                  ) : (
+                    theaterNames.map((theaterName) => (
+                      <TheaterRow
+                        key={theaterName}
+                        theaterName={theaterName}
+                        showtimes={byTheater[theaterName]}
+                      />
+                    ))
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* Hero Section - Movie poster and description */}
-      <HeroSection />
 
       {/* Additional Details Footer */}
       {/* <div className="px-6 md:px-12 lg:px-16 py-12" style={{ backgroundColor: BRAND.lightGray }}>
