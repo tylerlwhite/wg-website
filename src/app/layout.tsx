@@ -1,6 +1,16 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Anton } from "next/font/google";
 import "./globals.css";
+
+// Fat condensed grotesque for the Shop link's Enter the Void title-card treatment.
+// Loaded here rather than in Footer so the file is fetched once at build time.
+const anton = Anton({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-anton",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "WG",
@@ -33,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={anton.variable}>
       <head>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-LM61JDD1X6"

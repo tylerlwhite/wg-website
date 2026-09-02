@@ -11,6 +11,36 @@
   --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-mono: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-void: var(--font-anton), Impact, "Helvetica Neue", sans-serif;
+}
+
+/* Enter the Void title-card treatment — hard-cut strobe through fluorescent
+   neon with a matching bloom. steps(1, end) keeps each colour a snap rather
+   than a crossfade, which is what makes it read as film-title flicker instead
+   of a gradient. Eight frames over 0.72s ~= 11 cuts/sec. */
+@keyframes void-flash {
+  0%     { color: #ff00c8; text-shadow: 0 0 4px #ff00c8, 0 0 14px #ff00c8, 0 0 30px #ff00c877; }
+  12.5%  { color: #00fff2; text-shadow: 0 0 4px #00fff2, 0 0 14px #00fff2, 0 0 30px #00fff277; }
+  25%    { color: #b6ff00; text-shadow: 0 0 4px #b6ff00, 0 0 14px #b6ff00, 0 0 30px #b6ff0077; }
+  37.5%  { color: #ffe600; text-shadow: 0 0 4px #ffe600, 0 0 14px #ffe600, 0 0 30px #ffe60077; }
+  50%    { color: #ff6a00; text-shadow: 0 0 4px #ff6a00, 0 0 14px #ff6a00, 0 0 30px #ff6a0077; }
+  62.5%  { color: #ff0033; text-shadow: 0 0 4px #ff0033, 0 0 14px #ff0033, 0 0 30px #ff003377; }
+  75%    { color: #8a2bff; text-shadow: 0 0 4px #8a2bff, 0 0 14px #8a2bff, 0 0 30px #8a2bff77; }
+  87.5%  { color: #00b3ff; text-shadow: 0 0 4px #00b3ff, 0 0 14px #00b3ff, 0 0 30px #00b3ff77; }
+}
+
+.void-flash {
+  animation: void-flash 0.72s steps(1, end) infinite;
+}
+
+/* Strobing text is a migraine and photosensitivity trigger. Anyone who has asked
+   their OS to reduce motion gets the neon look holding on a single colour. */
+@media (prefers-reduced-motion: reduce) {
+  .void-flash {
+    animation: none;
+    color: #ff00c8;
+    text-shadow: 0 0 4px #ff00c8, 0 0 14px #ff00c8, 0 0 30px #ff00c877;
+  }
 }
 
 body {
